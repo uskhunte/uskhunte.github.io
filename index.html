@@ -492,7 +492,8 @@ function buildInformation(sec, P) {
     const node = document.getElementById('exp-counter');
     if (node) node.textContent = `${y}y ${m}m`;
   }
-  updateCounter();
+  // Defer until the card is in the DOM, then update every 60s
+  setTimeout(updateCounter, 0);
   setInterval(updateCounter, 60000);
   return c;
 }
@@ -540,6 +541,37 @@ function buildCertifications(sec) {
 //   subRoles   → career progression within the same company (e.g. Trainee → Analyst → Consultant)
 //   highlights → timeline bullet groups with a coloured heading tag
 // To add a new employer: append an object to sections.experience.items in portfolio.config.js.
+// ── Date helpers ──────────────────────────────────────────────────
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function parseJobDate(str) {
+  if (!str || str.toLowerCase() === 'present') return new Date();
+  const d = new Date(str);
+  return isNaN(d) ? new Date() : d;
+}
+
+function calcDuration(fromStr, toStr) {
+  const s = parseJobDate(fromStr);
+  const e = parseJobDate(toStr);
+  // Add 1 month so the end month is counted as a full month (Jan 2024 end → Feb 2024)
+  const ey = e.getMonth() === 11 ? e.getFullYear() + 1 : e.getFullYear();
+  const em = e.getMonth() === 11 ? 0 : e.getMonth() + 1;
+  let y = ey - s.getFullYear();
+  let m = em - s.getMonth();
+  if (m < 0) { y--; m += 12; }
+  if (y === 0 && m === 0) m = 1;
+  const parts = [];
+  if (y > 0) parts.push(`${y} yr${y !== 1 ? 's' : ''}`);
+  if (m > 0) parts.push(`${m} mo${m !== 1 ? 's' : ''}`);
+  return parts.join(' ');
+}
+
+function fmtJobDate(str) {
+  if (!str || str.toLowerCase() === 'present') return 'Present';
+  const d = new Date(str);
+  return isNaN(d) ? str : `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 function buildExperience(sec) {
   const body = div('');
   body.appendChild(div('section-label', sec.title));
@@ -566,7 +598,7 @@ function buildExperience(sec) {
     co.textContent = job.company;
     const role = div('');
     role.style.cssText = 'font-size:.82rem; color:var(--text-soft); margin-top:1px;';
-    role.textContent = `${job.type} · ${job.from} – ${job.to}`;
+    role.textContent = `${job.type} · ${fmtJobDate(job.from)} – ${fmtJobDate(job.to)} · ${calcDuration(job.from, job.to)}`;
     meta.appendChild(co); meta.appendChild(role);
     header.appendChild(meta);
     wrap.appendChild(header);
@@ -578,7 +610,8 @@ function buildExperience(sec) {
       job.subRoles.forEach(sr => {
         const sr_div = div('sub-role');
         const t = div('sub-role-title', sr.title);
-        const m = div('sub-role-meta', sr.period + (sr.mode ? ' · ' + sr.mode : ''));
+        const srRange = `${fmtJobDate(sr.from)} – ${fmtJobDate(sr.to)} · ${calcDuration(sr.from, sr.to)}`;
+        const m = div('sub-role-meta', srRange + (sr.mode ? ' · ' + sr.mode : ''));
         sr_div.appendChild(t); sr_div.appendChild(m);
         if (sr.desc) sr_div.appendChild(div('sub-role-desc', sr.desc));
         subWrap.appendChild(sr_div);

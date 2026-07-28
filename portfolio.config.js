@@ -136,16 +136,16 @@ const PORTFOLIO = {
         {
           company:    "Deloitte",
           role:       "Consultant",
-          type:       "Full-time · 3 yrs 6 mos",
+          type:       "Full-time",
           logo:       "Assets/company_logos/Logo_of_Deloitte.svg",
           location:   "Hyderabad, Telangana, India",
-          from:       "Feb 2023",
-          to:         "Present",
-          /* subRoles — most recent role first */
+          from:       "2023-02-01",
+          to:         "present",
+          /* subRoles — most recent role first; from/to are ISO dates or "present" */
           subRoles: [
-            { title: "Consultant",       period: "Jun 2026 – Present · 2 mos",          mode: "Hybrid" },
-            { title: "Analyst",          period: "Feb 2024 – May 2026 · 2 yrs 4 mos",   mode: "On-site", desc: "Salesforce Admin & Developer" },
-            { title: "Analyst Trainee",  period: "Feb 2023 – Jan 2024 · 1 yr",          mode: "On-site", desc: "Salesforce Developer" },
+            { title: "Consultant",      from: "2026-06-01", to: "present",    mode: "Hybrid" },
+            { title: "Analyst",         from: "2024-02-01", to: "2026-05-31", mode: "On-site", desc: "Salesforce Admin & Developer" },
+            { title: "Analyst Trainee", from: "2023-02-01", to: "2024-01-31", mode: "On-site", desc: "Salesforce Developer" },
           ],
           highlights: [
             {
@@ -186,8 +186,8 @@ const PORTFOLIO = {
           type:       "Internship",
           logo:       "Assets/company_logos/prowiggle.png",
           location:   "Bhandara, Maharashtra, India · Remote",
-          from:       "Apr 2021",
-          to:         "Jul 2021",
+          from:       "2021-04-01",
+          to:         "2021-07-31",
           subRoles:   [], // single role — no progression to show
           highlights: [
             {
@@ -204,8 +204,8 @@ const PORTFOLIO = {
           type:       "Internship",
           logo:       null, // no logo available
           location:   "Bilaspur, Chhattisgarh, India · Remote",
-          from:       "Aug 2020",
-          to:         "Sep 2020",
+          from:       "2020-08-01",
+          to:         "2020-09-30",
           subRoles:   [],
           highlights: [
             {
