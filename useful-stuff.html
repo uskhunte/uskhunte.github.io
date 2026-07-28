@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Useful Stuff — Ujjwal Singh Khunte</title>
+  <link rel="stylesheet" href="Assets/vendor/fonts/figtree/figtree.css" />
+  <link rel="stylesheet" href="Assets/vendor/fonts/inter/inter.css" />
+  <script src="Assets/vendor/tailwind.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Figtree', 'Inter', 'sans-serif'] },
+          colors: {
+            brand: { DEFAULT: '#0176d3', light: '#e8f4fd', dark: '#014486' },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /*
+     * CSS VARIABLES — keep in sync with index.html
+     * To change the colour palette, update both files.
+     * Light mode = :root block, Dark mode = html.dark block.
+     */
+    :root {
+      --bg: #f4f6f4; --bg2: #eaede8; --bg-glow: rgba(100,140,110,0.14);
+      --card-bg: rgba(255,255,255,0.78); --card-border: rgba(140,170,148,0.22);
+      --card-shadow: 0 2px 20px rgba(60,90,70,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+      --nav-bg: rgba(244,246,244,0.85); --nav-border: rgba(140,170,148,0.18);
+      --text: #2a3328; --text-soft: rgba(42,51,40,0.62); --text-muted: rgba(42,51,40,0.38);
+      --accent: #3d7a55;
+      --accent-badge-bg: rgba(61,122,85,0.09); --accent-badge-border: rgba(61,122,85,0.25);
+      --badge-color: #2e5e40;
+      --btn-primary-bg: #3d7a55; --btn-outline-border: rgba(61,122,85,0.32);
+      --btn-outline-hover: rgba(61,122,85,0.07);
+      --link-color: #3d7a55; --sep: rgba(61,122,85,0.12);
+      --hero-grad: linear-gradient(160deg, #1e3a2a 0%, #2d5c40 40%, #3d7a55 72%, #5a9e72 100%);
+    }
+    html.dark {
+      --bg: #1a1f1c; --bg2: #222720; --bg-glow: rgba(80,140,100,0.18);
+      --card-bg: rgba(36,44,38,0.80); --card-border: rgba(100,150,115,0.18);
+      --card-shadow: 0 4px 24px rgba(0,0,0,0.30), 0 1px 0 rgba(180,220,190,0.05) inset;
+      --nav-bg: rgba(26,31,28,0.88); --nav-border: rgba(100,150,115,0.15);
+      --text: rgba(220,235,224,0.92); --text-soft: rgba(185,210,193,0.65); --text-muted: rgba(155,185,165,0.40);
+      --accent: #72c295;
+      --accent-badge-bg: rgba(114,194,149,0.12); --accent-badge-border: rgba(114,194,149,0.28);
+      --badge-color: #9dddb8;
+      --btn-primary-bg: #3d7a55; --btn-outline-border: rgba(114,194,149,0.28);
+      --btn-outline-hover: rgba(114,194,149,0.10);
+      --link-color: #72c295; --sep: rgba(114,194,149,0.10);
+      --hero-grad: linear-gradient(160deg, #0e1a13 0%, #1a3224 40%, #2a5038 72%, #3d7a55 100%);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Figtree', 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background .3s, color .3s; }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+    }
+    .badge { display: inline-block; padding: .2rem .75rem; border-radius: 999px; font-size: .78rem; font-weight: 600; }
+    .badge-cat { background: var(--accent-badge-bg); color: var(--badge-color); border: 1px solid var(--accent-badge-border); }
+    .badge-tag { background: rgba(22,163,74,0.12); color: #166534; border: 1px solid rgba(22,163,74,0.3); }
+    html.dark .badge-tag { background: rgba(22,163,74,0.15); color: #6ee7b7; border-color: rgba(22,163,74,0.35); }
+    .nav-link { color: var(--text-soft); font-weight: 500; transition: color .15s; position: relative; padding: 4px 0; text-decoration: none; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform .15s; border-radius: 2px; }
+    .nav-link:hover, .nav-link.active { color: var(--text); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+    #theme-toggle { background: none; border: 1.5px solid var(--nav-border); border-radius: 8px; cursor: pointer; padding: 4px 10px; font-size: .8rem; color: var(--text-soft); transition: color .2s, border-color .2s, background .2s; font-family: inherit; }
+    #theme-toggle:hover { background: var(--btn-outline-hover); color: var(--text); }
+
+    .article-card { cursor: pointer; transition: box-shadow .2s, transform .15s, border-color .15s; }
+    .article-card:hover { box-shadow: 0 8px 32px var(--accent-badge-bg); transform: translateY(-3px); border-color: var(--accent-badge-border) !important; }
+
+    /* Article section types — colour-coded left borders.
+     * issue = red, resolution = green, note = amber, default = muted.
+     * These match the `type` field in articles.config.js sections[]. */
+    .sec-issue      { border-left: 4px solid rgba(220,38,38,0.6); background: rgba(220,38,38,0.06); border-radius: 6px; }
+    .sec-resolution { border-left: 4px solid rgba(22,163,74,0.6); background: rgba(22,163,74,0.06); border-radius: 6px; }
+    .sec-note       { border-left: 4px solid rgba(160,98,10,0.6); background: rgba(160,98,10,0.06); border-radius: 6px; }
+    .sec-default    { border-left: 4px solid var(--sep); background: var(--accent-badge-bg); border-radius: 6px; }
+
+    .sec-issue .sec-icon::before      { content: '⚠ '; color: #dc2626; font-weight: 700; }
+    .sec-resolution .sec-icon::before { content: '✓ '; color: #16a34a; font-weight: 700; }
+    .sec-note .sec-icon::before       { content: 'ℹ '; color: var(--accent); font-weight: 700; }
+    .sec-default .sec-icon::before    { content: '· '; color: var(--text-muted); font-weight: 700; }
+
+    #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.88); backdrop-filter: blur(12px); z-index: 9999; align-items: center; justify-content: center; }
+    #lightbox.open { display: flex; }
+    #lightbox img { max-width: 90vw; max-height: 88vh; border-radius: .75rem; box-shadow: 0 8px 40px rgba(0,0,0,.6); }
+    #lightbox-caption { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.85); background: rgba(0,0,0,.55); padding: .35rem 1rem; border-radius: 999px; font-size: .85rem; white-space: nowrap; }
+
+    .filter-btn { padding: .35rem 1rem; border-radius: 999px; font-size: .82rem; font-weight: 600; cursor: pointer; border: 1.5px solid transparent; transition: all .15s; }
+    .filter-btn.active { background: var(--btn-primary-bg); color: #fff; border-color: var(--accent-badge-border); }
+    .filter-btn:not(.active) { background: var(--accent-badge-bg); color: var(--text-soft); border-color: var(--accent-badge-border); }
+    .filter-btn:not(.active):hover { color: var(--accent); background: var(--btn-outline-hover); }
+
+    #search-input { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text); border-radius: 12px; transition: box-shadow .15s, border-color .15s; }
+    #search-input::placeholder { color: var(--text-muted); }
+    #search-input:focus { box-shadow: 0 0 0 3px var(--accent-badge-bg); outline: none; border-color: var(--accent-badge-border); }
+  </style>
+  <script src="articles.config.js"></script>
+</head>
+<body>
+
+<!-- BG GLOW -->
+<div style="position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% -10%, var(--bg-glow) 0%, transparent 70%);transition:background .3s;"></div>
+
+<!-- NAV -->
+<nav style="position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--nav-border);transition:background .3s,border-color .3s;">
+  <div style="max-width:80rem;margin:0 auto;padding:0 1rem;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <a href="index.html" style="color:var(--text);font-weight:700;font-size:1rem;letter-spacing:-.01em;text-decoration:none;">Ujjwal Singh Khunte</a>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+      <a href="index.html" class="nav-link">Portfolio</a>
+      <a href="useful-stuff.html" class="nav-link active">Useful Stuff</a>
+      <button id="theme-toggle" aria-label="Toggle theme">◑ Auto</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO BAND -->
+<div style="background:var(--hero-grad);padding:2.5rem 1rem;text-align:center;color:#fff;margin-bottom:2rem;position:relative;z-index:1;">
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.35) 100%);"></div>
+  <div style="position:relative;z-index:1;">
+    <h1 style="font-size:2rem;font-weight:700;margin:0 0 .5rem;">Useful Stuff</h1>
+    <p style="opacity:.8;font-size:.95rem;max-width:36rem;margin:0 auto;">Real-world issues I've hit and how I solved them — searchable by topic.</p>
+  </div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 pb-16" style="position:relative;z-index:1;">
+
+  <!-- SEARCH + FILTERS -->
+  <div class="flex flex-col md:flex-row gap-3 mb-6">
+    <input
+      id="search-input"
+      type="text"
+      placeholder="Search articles…"
+      style="flex:1; padding:.6rem 1rem; font-size:.875rem; font-family:inherit;"
+    />
+    <div id="filter-bar" class="flex flex-wrap gap-2 items-center"></div>
+  </div>
+
+  <!-- ARTICLE LIST -->
+  <div id="article-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+  <p id="empty-state" class="hidden text-center py-16 text-sm" style="color:var(--text-muted);">No articles match your search.</p>
+
+  <!-- ARTICLE DETAIL (hidden by default) -->
+  <div id="article-detail" class="hidden">
+    <button id="back-btn" class="flex items-center gap-1.5 font-semibold text-sm mb-6 hover:underline" style="color:var(--accent);background:none;border:none;cursor:pointer;padding:0;">
+      ← Back to articles
+    </button>
+    <div id="article-content"></div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-modal="true">
+  <img id="lightbox-img" src="" alt="" />
+  <span id="lightbox-caption"></span>
+  <button onclick="closeLightbox()" style="position:absolute;top:1rem;right:1.5rem;font-size:2rem;color:#fff;background:none;border:none;cursor:pointer;">✕</button>
+</div>
+
+<footer style="text-align:center;color:var(--text-muted);font-size:.8rem;padding:1.5rem 1rem;background:transparent;position:relative;z-index:1;">
+  &copy; <span id="footer-year"></span> Ujjwal Singh Khunte. All rights reserved.
+</footer>
+
+<script>
+// ── Theme ─────────────────────────────────────────────────────────
+(function() {
+  const saved = localStorage.getItem('theme');
+  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && sysDark)) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+
+window.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function applyTheme(dark) {
+    document.documentElement.classList.toggle('dark', dark);
+  }
+  function update() {
+    const saved  = localStorage.getItem('theme');
+    const isDark = document.documentElement.classList.contains('dark');
+    if (!saved) {
+      btn.textContent = '◑ Auto';
+    } else {
+      btn.textContent = isDark ? '☀︎ Light' : '◑ Dark';
+    }
+  }
+
+  btn.addEventListener('click', function() {
+    const saved = localStorage.getItem('theme');
+    if (!saved) {
+      localStorage.setItem('theme', 'dark');
+      applyTheme(true);
+    } else if (saved === 'dark') {
+      localStorage.setItem('theme', 'light');
+      applyTheme(false);
+    } else {
+      localStorage.removeItem('theme');
+      applyTheme(mq.matches);
+    }
+    update();
+  });
+
+  mq.addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+      applyTheme(e.matches);
+      update();
+    }
+  });
+
+  update();
+});
+
+// ── State ─────────────────────────────────────────────────────────
+// activeCategory and searchQuery drive which articles are visible.
+// published = only articles with `published: true` in articles.config.js.
+let activeCategory = 'All';
+let searchQuery = '';
+const published = ARTICLES.filter(a => a.published);
+
+// ── Helpers ───────────────────────────────────────────────────────
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+function categories() {
+  const cats = ['All', ...new Set(published.map(a => a.category).filter(Boolean))];
+  return cats;
+}
+
+// ── Render filter bar ─────────────────────────────────────────────
+// Generates one pill button per unique category found in published articles.
+// "All" is always first. Clicking a button sets activeCategory and re-renders.
+function renderFilters() {
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = '';
+  categories().forEach(cat => {
+    const btn = el('button', `filter-btn${cat === activeCategory ? ' active' : ''}`, cat);
+    btn.onclick = () => { activeCategory = cat; renderFilters(); renderList(); };
+    bar.appendChild(btn);
+  });
+}
+
+// ── Render article cards ──────────────────────────────────────────
+// Filters articles by activeCategory + searchQuery, then renders summary cards.
+// Clicking a card calls showArticle() to open the full article view.
+function renderList() {
+  const list   = document.getElementById('article-list');
+  const empty  = document.getElementById('empty-state');
+  const detail = document.getElementById('article-detail');
+
+  list.innerHTML = '';
+  list.classList.remove('hidden');
+  detail.classList.add('hidden');
+  empty.classList.add('hidden');
+
+  const q = searchQuery.toLowerCase();
+  const filtered = published.filter(a => {
+    const matchCat = activeCategory === 'All' || a.category === activeCategory;
+    const matchQ   = !q || a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)
+                       || (a.tags || []).some(t => t.toLowerCase().includes(q));
+    return matchCat && matchQ;
+  });
+
+  if (!filtered.length) { empty.classList.remove('hidden'); return; }
+
+  filtered.forEach(article => {
+    const card = el('div', 'card article-card p-5 flex flex-col gap-3');
+    card.onclick = () => showArticle(article);
+
+    // Category badge
+    const top = el('div', 'flex items-center justify-between');
+    top.appendChild(el('span', 'badge badge-cat', article.category || 'General'));
+    top.appendChild(el('span', 'text-xs text-gray-400', formatDate(article.date)));
+    card.appendChild(top);
+
+    card.appendChild(el('h2', 'text-base font-bold text-gray-900 leading-snug', article.title));
+    card.appendChild(el('p', 'text-sm text-gray-500 leading-relaxed', article.summary));
+
+    // Section type pills
+    const types = [...new Set((article.sections || []).map(s => s.type))];
+    const pills = el('div', 'flex flex-wrap gap-1.5 mt-1');
+    types.forEach(t => {
+      const colors = { issue: 'bg-red-50 text-red-600', resolution: 'bg-green-50 text-green-700', note: 'bg-blue-50 text-blue-600' };
+      const labels = { issue: '⚠ Issue', resolution: '✓ Resolution', note: 'ℹ Note' };
+      pills.appendChild(el('span', `text-xs font-semibold px-2 py-0.5 rounded-full ${colors[t] || 'bg-gray-100 text-gray-500'}`, labels[t] || t));
+    });
+    if (types.length) card.appendChild(pills);
+
+    // Tags
+    if (article.tags && article.tags.length) {
+      const tags = el('div', 'flex flex-wrap gap-1');
+      article.tags.forEach(t => tags.appendChild(el('span', 'badge badge-tag', t)));
+      card.appendChild(tags);
+    }
+
+    list.appendChild(card);
+  });
+}
+
+// ── Show article detail ───────────────────────────────────────────
+// Hides the card list and renders the full article (header + sections).
+// Each section in article.sections[] gets a colour-coded block based on `type`.
+// Images in sections are clickable and open in the lightbox.
+function showArticle(article) {
+  document.getElementById('article-list').classList.add('hidden');
+  const detail  = document.getElementById('article-detail');
+  const content = document.getElementById('article-content');
+  detail.classList.remove('hidden');
+  content.innerHTML = '';
+
+  // Header
+  const header = el('div', 'card p-6 mb-5');
+  const meta = el('div', 'flex items-center gap-3 mb-3');
+  meta.appendChild(el('span', 'badge badge-cat', article.category || 'General'));
+  meta.appendChild(el('span', 'text-xs text-gray-400', formatDate(article.date)));
+  header.appendChild(meta);
+  header.appendChild(el('h1', 'text-2xl font-bold text-gray-900 mb-2', article.title));
+  header.appendChild(el('p', 'text-gray-500 text-sm', article.summary));
+  if (article.tags && article.tags.length) {
+    const tags = el('div', 'flex flex-wrap gap-1.5 mt-3');
+    article.tags.forEach(t => tags.appendChild(el('span', 'badge badge-tag', t)));
+    header.appendChild(tags);
+  }
+  content.appendChild(header);
+
+  // Sections
+  (article.sections || []).forEach(sec => {
+    const typeClass = { issue: 'sec-issue', resolution: 'sec-resolution', note: 'sec-note' }[sec.type] || 'sec-default';
+    const wrap = el('div', `card p-5 mb-4 ${typeClass}`);
+
+    const heading = el('h3', 'font-bold text-base mb-2 flex items-center gap-1');
+    heading.innerHTML = `<span class="sec-icon"></span>${escHtml(sec.heading)}`;
+    wrap.appendChild(heading);
+
+    if (sec.body) {
+      wrap.appendChild(el('p', 'text-sm text-gray-700 leading-relaxed whitespace-pre-line', sec.body));
+    }
+
+    // Images
+    if (sec.images && sec.images.length) {
+      const imgGrid = el('div', 'grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4');
+      sec.images.forEach(img => {
+        const figure = el('figure', 'rounded-lg overflow-hidden cursor-zoom-in');
+        const image = el('img');
+        image.src = img.src; image.alt = img.caption || '';
+        image.className = 'w-full object-cover rounded-lg hover:opacity-90 transition-opacity';
+        image.onerror = function() { this.parentElement.style.display='none'; };
+        image.onclick = () => openLightbox(img.src, img.caption || '');
+        figure.appendChild(image);
+        if (img.caption) figure.appendChild(el('figcaption', 'text-xs text-gray-400 mt-1 px-1', img.caption));
+        imgGrid.appendChild(figure);
+      });
+      wrap.appendChild(imgGrid);
+    }
+
+    content.appendChild(wrap);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Lightbox ──────────────────────────────────────────────────────
+// Full-screen image viewer. Click backdrop or press Esc to close.
+function openLightbox(src, caption) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-caption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// ── Utilities ─────────────────────────────────────────────────────
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+// Wires up the search input, back button, and initial render on page load.
+// Data comes from ARTICLES in articles.config.js (loaded via <script> tag above).
+window.onload = function () {
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  document.getElementById('back-btn').onclick = () => {
+    document.getElementById('article-detail').classList.add('hidden');
+    renderList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  document.getElementById('search-input').addEventListener('input', function() {
+    searchQuery = this.value;
+    renderList();
+  });
+
+  renderFilters();
+  renderList();
+};
+</script>
+</body>
+</html>

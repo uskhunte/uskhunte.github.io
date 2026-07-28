@@ -1,497 +1,765 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Primary Meta Tags -->
-    <title>Ujjwal Singh Khunte | Salesforce Developer</title>
-    <meta name="title" content="Ujjwal Singh Khunte | Salesforce Developer" />
-    <meta name="description"
-        content="Salesforce Developer Automating Processes, Implementing AI, and Enhancing Productivity" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- <link rel="stylesheet" href=""> -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Inter:slnt,wght@-10..0,100..900&display=swap");
-
-        body {
-            font-family: "Figtree", sans-serif;
-        }
-    </style>
-    <script>
-    window.onload = (event) => {
-        function dateDifference(startDate, endDate) {
-            // Ensure the input dates are Date objects
-            if (!(startDate instanceof Date) || !(endDate instanceof Date)) {
-                throw new Error("Both startDate and endDate must be Date objects");
-            }
-
-            // Normalize the dates
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-
-            // Calculate the difference in years
-            let years = end.getFullYear() - start.getFullYear();
-            let months = end.getMonth() - start.getMonth();
-            let days = end.getDate() - start.getDate();
-
-            // Adjust months and years if necessary
-            if (days < 0) {
-                months--;
-                // Calculate the number of days in the previous month
-                const lastMonth = new Date(end.getFullYear(), end.getMonth() - 1, 0);
-                days += lastMonth.getDate();
-            }
-
-            if (months < 0) {
-                years--;
-                months += 12;
-            }
-
-            return { years, months, days };
-        }
-
-        // Define the specific date and get today's date
-        const specificDate = new Date('2023-02-02');
-        const today = new Date();
-
-        // Calculate the difference
-        const diff = dateDifference(specificDate, today);
-
-        // Get the span element and update its content
-        const experienceSpan = document.getElementById('experience');
-        experienceSpan.textContent = `${diff.years} Years, ${diff.months} Months, ${diff.days} Days`;
-        
-        // Get the span element and update its content
-        const experienceSpan_years = document.getElementById('experience_years');
-        experienceSpan_years.textContent = `${diff.years} Years, ${diff.months} Months`;
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ujjwal Singh Khunte — Salesforce Developer</title>
+  <link rel="stylesheet" href="Assets/vendor/fonts/figtree/figtree.css" />
+  <script src="Assets/vendor/tailwind.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Figtree', 'sans-serif'] },
+          colors: {
+            brand: { DEFAULT: '#1264c0', light: '#e8f4fd', dark: '#0a2540' },
+          },
+        },
+      },
     };
-</script>
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
+    /*
+     * CSS CUSTOM PROPERTIES (VARIABLES)
+     * To change the colour theme, edit the values below.
+     * Light mode uses :root, dark mode uses html.dark
+     * Variable naming:
+     *   --bg / --bg2        → page background shades
+     *   --card-bg/border    → frosted-glass card fill & rim
+     *   --text / --text-soft / --text-muted  → text hierarchy
+     *   --accent            → primary brand colour (buttons, badges, links)
+     *   --hero-grad         → cover banner gradient
+     *   --glass-pill-*      → liquid-glass identity pill colours
+     */
+
+    /* ── Light mode: soft sage green ── */
+    :root {
+      --bg:           #f4f6f4;
+      --bg2:          #eaede8;
+      --bg-glow:      rgba(100,140,110,0.14);
+      --card-bg:      rgba(255,255,255,0.78);
+      --card-border:  rgba(140,170,148,0.22);
+      --card-shadow:  0 2px 20px rgba(60,90,70,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+      --nav-bg:       rgba(244,246,244,0.85);
+      --nav-border:   rgba(140,170,148,0.18);
+      --text:         #2a3328;
+      --text-soft:    rgba(42,51,40,0.62);
+      --text-muted:   rgba(42,51,40,0.38);
+      --accent:       #3d7a55;
+      --accent-badge-bg:  rgba(61,122,85,0.09);
+      --accent-badge-border: rgba(61,122,85,0.25);
+      --badge-color:  #2e5e40;
+      --btn-primary-bg:   #3d7a55;
+      --btn-primary-hover:#2e5e40;
+      --btn-outline-border: rgba(61,122,85,0.32);
+      --btn-outline-hover:  rgba(61,122,85,0.07);
+      --link-color:   #3d7a55;
+      --sep:          rgba(61,122,85,0.12);
+      --dot-bg:       #f4f6f4;
+      --hero-grad:    linear-gradient(160deg, #1e3a2a 0%, #2d5c40 40%, #3d7a55 72%, #5a9e72 100%);
+      --cover-overlay:linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.22) 100%);
+      --avatar-ring:  rgba(255,255,255,0.85);
+      --avatar-glow:  rgba(61,122,85,0.28);
+      --exp-line:     rgba(61,122,85,0.18);
+      --glass-pill-bg:    rgba(255,255,255,0.20);
+      --glass-pill-border:rgba(255,255,255,0.42);
+      --glass-pill-shine: rgba(255,255,255,0.58);
+    }
+
+    /* ── Dark mode: soft slate (not pitch black — easier on eyes) ── */
+    html.dark {
+      --bg:           #1a1f1c;
+      --bg2:          #222720;
+      --bg-glow:      rgba(80,140,100,0.18);
+      --card-bg:      rgba(36,44,38,0.80);
+      --card-border:  rgba(100,150,115,0.18);
+      --card-shadow:  0 4px 24px rgba(0,0,0,0.30), 0 1px 0 rgba(180,220,190,0.05) inset;
+      --nav-bg:       rgba(26,31,28,0.88);
+      --nav-border:   rgba(100,150,115,0.15);
+      --text:         rgba(220,235,224,0.92);
+      --text-soft:    rgba(185,210,193,0.65);
+      --text-muted:   rgba(155,185,165,0.40);
+      --accent:       #72c295;
+      --accent-badge-bg:  rgba(114,194,149,0.12);
+      --accent-badge-border: rgba(114,194,149,0.28);
+      --badge-color:  #9dddb8;
+      --btn-primary-bg:   #3d7a55;
+      --btn-primary-hover:#4d9468;
+      --btn-outline-border: rgba(114,194,149,0.28);
+      --btn-outline-hover:  rgba(114,194,149,0.10);
+      --link-color:   #72c295;
+      --sep:          rgba(114,194,149,0.10);
+      --dot-bg:       #1a1f1c;
+      --hero-grad:    linear-gradient(160deg, #0e1a13 0%, #1a3224 40%, #2a5038 72%, #3d7a55 100%);
+      --cover-overlay:linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.40) 100%);
+      --avatar-ring:  rgba(180,220,195,0.22);
+      --avatar-glow:  rgba(61,122,85,0.40);
+      --exp-line:     rgba(114,194,149,0.14);
+      --glass-pill-bg:    rgba(36,44,38,0.42);
+      --glass-pill-border:rgba(180,220,195,0.24);
+      --glass-pill-shine: rgba(180,220,195,0.20);
+    }
+
+    body { font-family: 'Figtree', sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: background .3s, color .3s; }
+
+    /*
+     * .card — Frosted-glass panel
+     * backdrop-filter creates the glass blur. Every content section is a .card.
+     * To change card roundness: edit border-radius.
+     * To disable the entrance animation: remove the `animation` line.
+     */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      animation: fadeUp .45s ease both;
+      transition: background .3s, border-color .3s, box-shadow .3s;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Theme toggle */
+    #theme-toggle { background: none; border: 1.5px solid var(--nav-border); border-radius: 8px; cursor: pointer; padding: 4px 10px; font-size: .8rem; color: var(--text-soft); transition: color .2s, border-color .2s, background .2s; font-family: inherit; }
+    #theme-toggle:hover { background: var(--btn-outline-hover); color: var(--text); }
+
+    /* Nav */
+    .nav-link { color: var(--text-soft); font-weight: 500; font-size: .9rem; padding: 4px 0; transition: color .15s; position: relative; text-decoration: none; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform .15s; border-radius: 2px; }
+    .nav-link:hover, .nav-link.active { color: var(--text); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
+
+    /*
+     * Hero cover banner
+     * height: 280px — increase to make the banner taller.
+     * The cover image (coverSrc in portfolio.config.js) is placed via JS.
+     * If no image loads, the CSS gradient (--hero-grad) shows as fallback.
+     */
+    .hero-cover { height: 280px; background: var(--hero-grad); overflow: hidden; position: relative; }
+    .hero-cover img { width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+    .hero-cover::after { content: ''; position: absolute; inset: 0; background: var(--cover-overlay); pointer-events: none; }
+
+    /*
+     * Liquid-glass identity pill
+     * The pill sits centered over the bottom edge of the hero cover.
+     * bottom: -38px controls how much it hangs below the cover.
+     * To move the pill: adjust `bottom` and the main grid `margin-top` (line ~245 in HTML).
+     * The parent .hero-identity-bg must keep overflow:visible so the pill isn't clipped.
+     */
+    .hero-identity-bg { background: transparent; position: relative; z-index: 2; pointer-events: none; overflow: visible; }
+
+    .glass-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.1rem;
+      padding: .9rem 1.6rem .9rem 1rem;
+      border-radius: 999px;
+      background: var(--glass-pill-bg);
+      backdrop-filter: blur(28px) saturate(200%) brightness(1.08);
+      -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.08);
+      border: 1px solid var(--glass-pill-border);
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.18),
+        0 1.5px 0 var(--glass-pill-shine) inset,
+        0 -1px 0 rgba(0,0,0,0.06) inset;
+      position: absolute;
+      bottom: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: auto;
+      white-space: nowrap;
+      animation: pillIn .55s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes pillIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px) scale(.97); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0)     scale(1);  }
+    }
+
+    .avatar-ring { width: 72px; height: 72px; border-radius: 50%; border: 2.5px solid var(--avatar-ring); box-shadow: 0 0 0 3px var(--avatar-glow), 0 4px 14px rgba(0,0,0,0.25); overflow: hidden; background: var(--bg2); flex-shrink: 0; }
+    .avatar-ring img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Section label */
+    .section-label { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .75rem; }
+
+    /* Skills badges */
+    .skill-badge { display: inline-block; padding: .22rem .7rem; border-radius: 999px; font-size: .75rem; font-weight: 600; background: var(--accent-badge-bg); color: var(--badge-color); border: 1px solid var(--accent-badge-border); }
+
+    /* Cert grid */
+    .cert-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; text-decoration: none; }
+    .cert-item img { width: 52px; height: 52px; object-fit: contain; transition: transform .2s, filter .2s; }
+    .cert-item:hover img { transform: scale(1.12); filter: drop-shadow(0 0 8px var(--avatar-glow)); }
+    .cert-item span { font-size: .67rem; color: var(--text-muted); text-align: center; line-height: 1.3; max-width: 64px; }
+
+    /* Experience timeline */
+    .exp-line { border-left: 2px solid var(--exp-line); margin-left: 7px; padding-left: 20px; }
+    .exp-dot-outer { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent); background: var(--dot-bg); flex-shrink: 0; margin-left: -27px; margin-top: 2px; position: relative; transition: background .3s; }
+    .exp-dot-inner { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    .highlight-tag { display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); background: var(--accent-badge-bg); padding: .15rem .55rem; border-radius: 4px; margin-bottom: .45rem; }
+    .bullet-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); flex-shrink: 0; margin-top: 7px; }
+
+    /* Sub-role rows */
+    .sub-role { border-left: 2px solid var(--exp-line); padding-left: 14px; margin-bottom: .65rem; }
+    .sub-role-title { font-weight: 600; font-size: .88rem; color: var(--text); }
+    .sub-role-meta { font-size: .78rem; color: var(--text-soft); margin-top: 1px; }
+    .sub-role-desc { font-size: .8rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Link buttons */
+    .btn-primary { display: flex; align-items: center; justify-content: center; gap: 8px; padding: .6rem 1.1rem; border-radius: 12px; background: var(--btn-primary-bg); color: #fff; font-weight: 600; font-size: .85rem; transition: background .15s, transform .12s, box-shadow .15s; text-decoration: none; border: 1px solid rgba(0,0,0,0.08); }
+    .btn-primary:hover { background: var(--btn-primary-hover); transform: translateY(-2px); box-shadow: 0 6px 20px var(--avatar-glow); }
+    .btn-outline { display: flex; align-items: center; justify-content: center; gap: 8px; padding: .6rem 1.1rem; border-radius: 12px; border: 1.5px solid var(--btn-outline-border); color: var(--text); font-weight: 600; font-size: .85rem; transition: background .15s, transform .12s; text-decoration: none; background: transparent; }
+    .btn-outline:hover { background: var(--btn-outline-hover); transform: translateY(-2px); }
+    .btn-link { display: block; text-align: center; color: var(--link-color); font-size: .85rem; font-weight: 500; text-decoration: none; }
+    .btn-link:hover { text-decoration: underline; }
+
+    /* Info row */
+    .info-row { display: flex; align-items: flex-start; gap: 10px; font-size: .85rem; }
+    .info-label { color: var(--text-muted); min-width: 88px; flex-shrink: 0; }
+    .info-value { color: var(--text); font-weight: 500; }
+
+    /* Education */
+    .edu-logo { width: 44px; height: 44px; object-fit: contain; border-radius: 8px; flex-shrink: 0; }
+
+    @media(max-width:700px){
+      #main-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+  <script src="portfolio.config.js"></script>
 </head>
+<body>
 
-<body class="bg-gray-100 dark:bg-night-900">
+<!-- Background glow -->
+<div style="position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 80% 50% at 50% -10%, var(--bg-glow) 0%, transparent 70%);transition:background .3s;"></div>
 
+<!-- NAV -->
+<nav style="background: var(--nav-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid var(--nav-border); position:sticky; top:0; z-index:50; transition:background .3s, border-color .3s;">
+  <div style="max-width:1080px; margin:0 auto; padding:0 1.25rem; height:52px; display:flex; align-items:center; justify-content:space-between;">
+    <span style="color:var(--text); font-weight:700; font-size:1rem; letter-spacing:-.01em;" id="nav-name"></span>
+    <div style="display:flex; gap:1.5rem; align-items:center;">
+      <a href="index.html" class="nav-link active">Portfolio</a>
+      <a href="useful-stuff.html" class="nav-link">Useful Stuff</a>
+      <button id="theme-toggle" aria-label="Toggle theme">◑ Auto</button>
+    </div>
+  </div>
+</nav>
 
-    <main class="container mx-auto max-w-6xl px-4 py-6">
-        <div class="gap-5 sm:grid lg:grid-cols-3">
-            <div class="space-y-5">
-                <!-- Profile Block Starts -->
-                <div class="card bg-white relative mx-auto rounded-lg overflow-hidden">
-                    <div class="overflow-hidden relative">
-                        <img src="Assets/images/cover_pic.jpg" alt="" class="mb-0 object-cover object-center" />
+<!-- COVER -->
+<div class="hero-cover" id="cover-wrap" style="position:relative; z-index:1;">
+  <img id="cover-img" alt="" style="display:none;" />
+</div>
 
-                        <div class="flex absolute inset-0 py-2 px-4 flex items-end bg-gradient-to-t from-white">
-                            <img src="Assets/images/me.jpg" alt="Ujjwal Singh Khunte"
-                                class="w-20 h-20 border-2 border-white rounded-full object-cover object-center shadow-md" />
-                        </div>
-                    </div>
-                    <div class="px-6 mb-2">
-                        <div class="text-lg font-semibold text-gray-800 dark:text-night-50 mt-1">
-                            Ujjwal Singh Khunte
-                        </div>
-                        <div class="text-sm text-gray-700 dark:text-night-200">
-                            Salesforce Developer
-                        </div>
-                    </div>
-                    <div class="m-2 p-4 rounded-md bg-gray-50 text-sm text-gray-600 dark:text-night-200 mt-2">
-                        <p>
-                            Salesforce Developer with <span id="experience_years"></span> of experience in Sales/Experience Cloud, APEX,
-                            LWC, AURA, Integration and Lightning Flow.
-                        </p>
-                        <p class="my-2">Passionate about learning new concepts
-                            of programming, Process Improvement.
-                        </p>
+<!-- HERO IDENTITY -->
+<div class="hero-identity-bg" style="position:relative; height:52px;">
+  <div style="max-width:1080px; margin:0 auto; padding:0 1.25rem; position:relative; height:0;">
+    <div class="glass-pill">
+      <div class="avatar-ring">
+        <img id="avatar-img" src="" alt="avatar" onerror="this.src='https://ui-avatars.com/api/?name=UK&background=3d7a55&color=fff&size=100'" />
+      </div>
+      <div>
+        <h1 style="font-size:1.15rem; font-weight:700; margin:0; color:var(--text); line-height:1.2;" id="hero-name"></h1>
+        <p style="margin:.18rem 0 0; color:var(--accent); font-weight:600; font-size:.85rem;" id="hero-title"></p>
+        <p style="margin:.1rem 0 0; color:var(--text-soft); font-size:.75rem;" id="hero-location"></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-                        <div class="grid grid-cols-2 gap-2  mt-4">
-                            <div class="flex justify-center">
-                                <a href="https://www.linkedin.com/in/ujjwalsinghkhunte" target="_blank"
-                                    class="flex items-center justify-center px-3 py-2 text-sm font-medium text-center gap-2 rounded-md w-full text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Connect on
-                                    <img src="Assets/icons/linkedein.svg" />
-                                </a>
-                            </div>
+<!-- MAIN -->
+<div style="max-width:1080px; margin:3rem auto 3rem; padding:0 1.25rem; position:relative; z-index:1;">
+  <div id="main-grid" style="display:grid; grid-template-columns:280px 1fr; gap:1.25rem; align-items:start;">
+    <div id="col-left" style="display:flex; flex-direction:column; gap:1rem;"></div>
+    <div id="col-right" style="display:flex; flex-direction:column; gap:1rem;"></div>
+  </div>
+</div>
 
-                            <div class="flex justify-center">
-                                <a href="https://www.salesforce.com/trailblazer/uskhunte" target="_blank"
-                                    class="flex items-center justify-center px-3 py-2 text-sm font-medium text-center gap-2 rounded-md w-full text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    Follow on
-                                    <img src="Assets/icons/Trailhead_old.svg" />
-                                </a>
-                            </div>
-                        </div>
+<footer style="text-align:center; color:var(--text-muted); font-size:.8rem; padding:1.5rem 1rem; background:transparent; position:relative; z-index:1;">
+  &copy; <span id="footer-year"></span> Ujjwal Singh Khunte. All rights reserved.
+</footer>
 
-                    <a href="https://github.com/uskhunte" target="_blank"
-                                class="flex items-center justify-center px-3 py-2 mt-2 text-sm font-medium text-center gap-2 rounded-md w-full text-blue-600">
-                                View GitHub Profile
-                                  </a>
+<script>
+// ── Theme ──────────────────────────────────────────────────────────
+// Runs immediately (before page renders) to avoid a flash of wrong theme.
+// Priority: localStorage saved value → system preference (prefers-color-scheme).
+(function() {
+  const saved = localStorage.getItem('theme');
+  const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && sysDark)) {
+    document.documentElement.classList.add('dark');
+  }
+})();
 
+function initThemeToggle() {
+  const btn = document.getElementById('theme-toggle');
+  const mq  = window.matchMedia('(prefers-color-scheme: dark)');
 
+  function applyTheme(dark) {
+    document.documentElement.classList.toggle('dark', dark);
+  }
+  function update() {
+    const saved  = localStorage.getItem('theme');
+    const isDark = document.documentElement.classList.contains('dark');
+    if (!saved) {
+      btn.textContent = '◑ Auto';
+    } else {
+      btn.textContent = isDark ? '☀︎ Light' : '◑ Dark';
+    }
+  }
 
-                    </div>
-                </div>
-                <!-- Profile Block Ends -->
+  // Cycle: auto → dark → light → auto
+  btn.addEventListener('click', function() {
+    const saved = localStorage.getItem('theme');
+    if (!saved) {
+      // auto → force dark
+      localStorage.setItem('theme', 'dark');
+      applyTheme(true);
+    } else if (saved === 'dark') {
+      // force dark → force light
+      localStorage.setItem('theme', 'light');
+      applyTheme(false);
+    } else {
+      // force light → back to auto
+      localStorage.removeItem('theme');
+      applyTheme(mq.matches);
+    }
+    update();
+  });
 
-                <!-- Information Block Starts -->
-                <div class="card bg-white p-2 rounded-lg">
-                    <h2
-                        class="ml-2 my-1 flex text-lg font-semibold dark:text-night-50 items-center before:inline-block before:h-1.5 before:w-1.5 before:bg-blue-500 before:rounded-full before:mr-2 before:self-center mb-4">
-                        Information
-                    </h2>
-                    <div class="px-2 py-2.5 rounded-md bg-gray-50 text-sm text-gray-600 dark:text-night-200">
-                        <ul class="list-none">
-                            <li class="flex justify-between border-b pb-2.5">
-                                <span>Location</span>
-                                <span>Hyderabad, Telengana, India</span>
-                            </li>
-                            <li class="flex justify-between border-b py-2.5">
-                                <span>Experience</span>
-                                <span id="experience"></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Information Block Ends -->
+  // Follow system changes only when no manual preference is set
+  mq.addEventListener('change', function(e) {
+    if (!localStorage.getItem('theme')) {
+      applyTheme(e.matches);
+      update();
+    }
+  });
 
-                <!-- Skill Block Starts -->
-                <div class="card bg-white p-4 pt-2 rounded-lg">
-                    <h2
-                        class="my-1 flex text-lg font-semibold dark:text-night-50 items-center before:inline-block before:h-1.5 before:w-1.5 before:bg-blue-500 before:rounded-full before:mr-2 before:self-center mb-4">
-                        Skills &amp; Expertise
-                    </h2>
-                    <div class="-m-2 flex flex-wrap gap-2">
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Salesforce
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Sales Cloud
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Digital Experience Sites
-                        </span>
-                         <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Experience Cloud
-                        </span>
-                          <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Service Cloud
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            APEX
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            LWC
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            AURA
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            REST API
-                        </span>
-                          <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Integration
-                        </span>
-                         <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Lightning Flow
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            HTML 5
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            CSS 3
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            JavaScript
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Postman
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Workbench
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Data Loader
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            SFDX CLI
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Git
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Github
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Azure DevOps
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Own Backup
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            SQL
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            ReactJS
-                        </span>
-                        <span
-                            class="cursor-pointer bg-gray-100 text-gray-600 hover:bg-gray-200 text-xs px-2 py-1 rounded-md">
-                            Gearset
-                        </span>
-                    </div>
-                </div>
-                <!-- Skill Block Ends -->
+  update();
+}
 
-                <!-- Certifications Block Starts -->
-                <div class="card bg-white p-4 pt-2 rounded-lg">
-                    <h2
-                        class="my-1 flex text-lg font-semibold dark:text-night-50 items-center before:inline-block before:h-1.5 before:w-1.5 before:bg-blue-500 before:rounded-full before:mr-2 before:self-center mb-4">
-                        <a href="https://www.salesforce.com/trailblazer/rohitasare" target="_blank"
-                            title="Click to verify">Certifications (7X)</a>
-                    </h2>
-                    <div class="p-2">
-                        <!-- Main SF Certifications -->
-                        <div class="flex flex-wrap">
-                            <img src="Assets/icons/app-builder.png" title="Platform App Builder" class="w-24 mr-2 mb-2" />
-                            <img src="Assets/icons/admin.png" title="Administrator" class="w-24 mr-2 mb-2" />
-                            <img src="Assets/icons/pd1.png" title="Platform Developer 1" class="w-24 mr-2 mb-2" />
-                            <img src="Assets/icons/data-cloud.png" title="Data Cloud Consultant" class="w-24 mr-2 mb-2" /> 
-                            <img src="Assets/icons/js1.png" title="JavaScript Developer" class="w-24 mr-2 mb-2" />
-                            <img src="Assets/icons/agentforce_specialist.png" title="Agentforce Specialist" class="w-24 mr-2 mb-2" />
-                            <img src="Assets/icons/ai_associate.png" title="Agentforce Specialist" class="w-24 mr-2 mb-2" />
-                        </div>
-                    </div>
-                </div>
-                <!-- Certifications Block Ends -->
-            </div>
-            <!-- Main Block Starts -->
-            <div class="mt-4 space-y-5 sm:mt-0 lg:col-span-2">
-                <!-- Experience Block Starts -->
-                <div class="card bg-white p-3 rounded-lg">
-                    <h2
-                        class="flex text-lg font-semibold dark:text-night-50 items-center before:inline-block before:h-1.5 before:w-1.5 before:bg-blue-500 before:rounded-full before:mr-2 before:self-center mb-3 ml-2">
-                        Experience
-                    </h2>
-                    <!-- Experience Block 1 -->
-                    <div class="mb-5 md:flex md:items-start p-4 bg-gray-50 hover:bg-gray-100 rounded-lg">
-                        <img src="Assets/company_logos/Logo_of_Deloitte.svg" class="mb-2 md:mb-0" style="width: 3rem;" />
-                        <div class="ml-0 md:ml-3 w-full">
-                            <div class="company_description">
-                                <div class="flex items-end justify-between items-center">
-                                    <div class="font-semibold text-gray-700 dark:text-night-50">
-                                        DC Analyst
-                                    </div>
-                                    <div
-                                        class="order-last inline-flex items-center border rounded-lg bg-white px-2 py-1 text-xs font-medium text-primary-500">
-                                        Full-time
-                                    </div>
-                                </div>
+// ── Helpers ──────────────────────────────────────────────────────
+function el(tag, style, html) {
+  const e = document.createElement(tag);
+  if (style) e.className = style;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+function div(cls, html) { return el('div', cls, html); }
+function span(cls, html) { return el('span', cls, html); }
 
-                                <div class="flex flex-wrap items-center mt-2 gap-2 md:gap-4">
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5">
-                                            <path fill="currentColor"
-                                                d="M7 5V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM4 16v3h16v-3zm0-2h16V7H4zM9 3v2h6V3zm2 8h2v2h-2z" />
-                                        </svg>
-                                        <span class="ml-1"> Deloitte USI </span>
-                                    </div>
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5">
-                                            <path fill="currentColor"
-                                                d="m12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zm4.95-7.778a7 7 0 1 0-9.9 0L12 20.9zM12 13a2 2 0 1 1 0-4a2 2 0 0 1 0 4" />
-                                        </svg>
-                                        <span class="ml-1"> Hyderabad, Telenghana, India </span>
-                                    </div>
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5">
-                                            <path fill="currentColor"
-                                                d="M9 1v2h6V1h2v2h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1zm11 10H4v8h16zm-9 2v4H6v-4zM7 5H4v4h16V5h-3v2h-2V5H9v2H7z" />
-                                        </svg>
-                                        <span class="ml-1"> Feb 2023 - Present </span>
-                                    </div>
-                                </div>
-                            </div>
+function card(inner, extraStyle) {
+  const d = div('card');
+  d.style.padding = '1.1rem 1.25rem';
+  if (extraStyle) Object.assign(d.style, extraStyle);
+  if (inner) d.appendChild(inner);
+  return d;
+}
 
-                            <div class="text-sm text-gray-600 mt-2">
-                                <p>
-                                    As an experienced Salesforce professional, I consistently
-                                    leveraged the best practices to optimize processes, deliver
-                                    tailored solutions for clients, and drive innovation within
-                                    my team. My key achievements encompassed the following
-                                    areas:
-                                </p>
+// ── Bootstrap ──────────────────────────────────────────────────────
+// Entry point: reads PORTFOLIO config (from portfolio.config.js) and
+// populates every dynamic element on the page.
+// Sections are sorted by their `order` value and placed into left/right columns.
+window.onload = function () {
+  const P = PORTFOLIO;
 
-                                <div class="my-2">
-                                    <p class="font-semibold mb-1 text-gray-700">
-                                        Process Automation
-                                    </p>
-                                    <ul class="list-disc pl-5">
-                                        <li>
-                                            Automated processes using Lightning Flow, Workflow Rules, Approval
-                                            Processes, custom Lightning Web Components (LWC), and Apex frameworks,
-                                            significantly boosting efficiency and productivity.
-                                        </li>
-                                        <li>
-                                            Developed productivity tools that automated repetitive tasks, resulting in reduction of manual effort and process time..
-                                        </li>
-                                        <!-- <li>
-                                            Demonstrated commitment to continuous improvement by
-                                            submitting 8 Kaizens so far.
-                                        </li> -->
-                                    </ul>
-                                </div>
+  initThemeToggle();
 
-                                <div class="mb-2">
-                                    <p class="font-semibold mb-1 text-gray-700">
-                                        Solution Design and Analysis
-                                    </p>
-                                    <ul class="list-disc pl-5">
-                                        <li>
-                                            Led requirements gathering, performed comprehensive analyses, designed
-                                            high-level solutions, and conducted impact assessments to ensure seamless
-                                            implementation of Salesforce solutions.
-                                        </li>
-                                        <li>
-                                            Conducted case studies utilizing advanced AI
-                                            technologies like OpenAI and Microsoft
-                                            Copilot to develop innovative client-specific solutions.
+  document.getElementById('nav-name').textContent   = P.person.name;
+  document.getElementById('hero-name').textContent  = P.person.name;
+  document.getElementById('hero-title').textContent = P.person.title;
+  document.getElementById('hero-location').textContent = P.person.location;
+  document.getElementById('avatar-img').src = P.person.avatarSrc;
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
 
-                                        </li>
-                                    </ul>
-                                </div>
+  const coverImg = document.getElementById('cover-img');
+  if (P.person.coverSrc) {
+    coverImg.onload  = function() { this.style.display = ''; };
+    coverImg.onerror = function() { this.style.display = 'none'; };
+    coverImg.src = P.person.coverSrc;
+  }
 
-                                <div class="mb-2">
-                                    <p class="font-semibold mb-1 text-gray-700">
-                                        Technical Expertise
-                                    </p>
-                                    <ul class="list-disc pl-5">
-                                        <li>
-                                            Worked on Sales, Service and Experience Clouds and delivering robust
-                                            solutions across these domains.
-                                        </li>
-                                        <li>
-                                            Optimized Apex Classes, Test Classes, and Asynchronous Apex, resulting in
-                                            improved performance and code
-                                            quality.
-                                        </li>
-                                        <li>
-                                            Automated SOQL Queries and Apex Code generation for Unit
-                                            Testing, streamlining the testing process and ensuring
-                                            code reliability.
-                                        </li>
-                                        <li>
-                                            Demonstrated advanced debugging skills in Integration &amp; Apex Classes,
-                                            resolving critical issues and ensuring system stability.
-                                        </li>
-                                    </ul>
-                                </div>
+  const left  = Object.entries(P.sections).filter(([,s]) => s.column === 'left'  && s.enabled).sort((a,b) => a[1].order - b[1].order);
+  const right = Object.entries(P.sections).filter(([,s]) => s.column === 'right' && s.enabled).sort((a,b) => a[1].order - b[1].order);
 
-                                <div class="mb-2">
-                                    <p class="font-semibold mb-1 text-gray-700">
-                                        Documentation
-                                    </p>
-                                    <ul class="list-disc pl-5">
-                                        <li>
-                                            Created Business Requirements Documents, Estimated Time of Arrival (ETA)
-                                            documents, and comprehensive administrative and technical documentation,
-                                            providing clarity and guidance for project execution.
-                                        </li>
-                                        <li>
-                                            Trained and mentored resources on Salesforce
-                                            Administration and Development, fostering a culture of
-                                            continuous learning and skill development within the
-                                            team.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>      
-                </div>
-                <!-- Experience Block Ends -->
+  const colLeft  = document.getElementById('col-left');
+  const colRight = document.getElementById('col-right');
 
-                <!-- Education Block Starts-->
-                <div class="card bg-white p-3 rounded-lg">
-                    <h2
-                        class="flex text-lg font-semibold dark:text-night-50 items-center before:inline-block before:h-1.5 before:w-1.5 before:bg-blue-500 before:rounded-full before:mr-2 before:self-center mb-3 ml-2">
-                        Education
-                    </h2>
-                    <!-- Education Block 1 -->
-                    <div class="mb-3 md:flex md:items-start p-4 bg-gray-50 hover:bg-gray-100 rounded-lg">
-                        <img src="Assets/images/logo_dark_sstc.png" class="mb-2 md:mb-0 w-10" />
-                        <div class="ml-0 md:ml-3 w-full">
-                            <div class="company_description">
-                                <div class="flex items-end justify-between items-center">
-                                    <div class="font-semibold text-gray-700 dark:text-night-50">
-                                        Shri Shankracharya Technical Campus
-                                    </div>
-                                </div>
+  colLeft.appendChild(buildProfile(P));
+  left.forEach(([key, sec])  => { const n = buildSection(key, sec, P); if (n) colLeft.appendChild(n); });
+  right.forEach(([key, sec]) => { const n = buildSection(key, sec, P); if (n) colRight.appendChild(n); });
+};
 
-                                <div class="flex flex-wrap items-center mt-2 gap-2 md:gap-4">
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5 v.5"
-                                            >
-                                            <path fill="currentColor"
-                                                d="M4 11.333L0 9l12-7l12 7v8.5h-2v-7.333l-2 1.166v6.678l-.223.275A9.983 9.983 0 0 1 12 22a9.983 9.983 0 0 1-7.777-3.714L4 18.011zM6 12.5v4.792A7.979 7.979 0 0 0 12 20a7.978 7.978 0 0 0 6-2.708V12.5L12 16zM3.97 9L12 13.685L20.03 9L12 4.315z" />
-                                        </svg>
-                                        <span class="ml-1">
-                                            Bachelor of Technology
-                                        </span>
-                                    </div>
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5">
-                                            <path fill="currentColor"
-                                                d="m12 23.728l-6.364-6.364a9 9 0 1 1 12.728 0zm4.95-7.778a7 7 0 1 0-9.9 0L12 20.9zM12 13a2 2 0 1 1 0-4a2 2 0 0 1 0 4" />
-                                        </svg>
-                                        <span class="ml-1"> Bhilai, Chhattisgarh, India </span>
-                                    </div>
-                                    <div
-                                        class="flex items-center text-xs font-semibold text-gray-600 dark:text-night-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-3.5 h-3.5">
-                                            <path fill="currentColor"
-                                                d="M9 1v2h6V1h2v2h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1zm11 10H4v8h16zm-9 2v4H6v-4zM7 5H4v4h16V5h-3v2h-2V5H9v2H7z" />
-                                        </svg>
-                                        <span class="ml-1"> 2022 </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                <!-- Education Block Ends-->
-            </div>
-        </div>
-    </main>
+function buildSection(key, sec, P) {
+  switch (key) {
+    case 'information':    return buildInformation(sec, P);
+    case 'skills':         return buildSkills(sec);
+    case 'certifications': return buildCertifications(sec);
+    case 'experience':     return buildExperience(sec);
+    case 'education':      return buildEducation(sec);
+    case 'projects':       return buildProjects(sec);
+    case 'blog':           return buildBlog(sec);
+    case 'awards':         return buildAwards(sec);
+    case 'languages':      return buildLanguages(sec);
+    default:               return null;
+  }
+}
+
+// ── Profile card (always shown — not in sections config) ───────────
+// Renders bio, social links. Links styled per `style` field:
+//   "primary" → filled button, "outline" → border button, "link" → text link.
+// To add a new link, add an entry to person.links in portfolio.config.js.
+function buildProfile(P) {
+  const body = div('');
+  body.style.display = 'flex';
+  body.style.flexDirection = 'column';
+  body.style.gap = '.75rem';
+
+  const bioWrap = div('');
+  bioWrap.appendChild(el('p', '', P.person.bio));
+  bioWrap.querySelector('p').style.cssText = 'margin:0; font-size:.85rem; color:var(--text-soft); line-height:1.6;';
+  if (P.person.bio2) {
+    const p2 = el('p', '', P.person.bio2);
+    p2.style.cssText = 'margin:.5rem 0 0; font-size:.85rem; color:var(--text-soft); line-height:1.6;';
+    bioWrap.appendChild(p2);
+  }
+  body.appendChild(bioWrap);
+
+  const sep = div('');
+  sep.style.cssText = 'height:1px; background:var(--sep); margin:.1rem 0;';
+  body.appendChild(sep);
+
+  const links = div('');
+  links.style.cssText = 'display:flex; flex-direction:column; gap:.5rem;';
+  P.person.links.forEach(lnk => {
+    let a;
+    if (lnk.style === 'primary') {
+      a = el('a', 'btn-primary');
+    } else if (lnk.style === 'outline') {
+      a = el('a', 'btn-outline');
+    } else {
+      a = el('a', 'btn-link');
+    }
+    a.href = lnk.href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    if (lnk.icon) {
+      const img = el('img');
+      img.src = lnk.icon; img.alt = ''; img.style.cssText = 'width:18px;height:18px;object-fit:contain;flex-shrink:0;';
+      a.appendChild(img);
+    }
+    a.appendChild(document.createTextNode(lnk.label));
+    links.appendChild(a);
+  });
+  body.appendChild(links);
+
+  return card(body);
+}
+
+// ── Information card ──────────────────────────────────────────────
+// Shows Location and a live experience counter.
+// Counter calculates years/months from person.experienceStartDate (portfolio.config.js).
+// Updates every 60 seconds so it stays accurate without a page reload.
+function buildInformation(sec, P) {
+  const body = div('');
+  const lbl = div('section-label', sec.title);
+  body.appendChild(lbl);
+
+  const rows = [
+    ['Location', P.person.location],
+    ['Experience', '<span id="exp-counter">–</span>'],
+  ];
+  rows.forEach(([label, val]) => {
+    const row = div('info-row');
+    const l = span('info-label', label);
+    const v = span('info-value');
+    v.innerHTML = val;
+    row.appendChild(l); row.appendChild(v);
+    body.appendChild(row);
+  });
+
+  const c = card(body);
+
+  function updateCounter() {
+    const start = new Date(P.person.experienceStartDate);
+    const now   = new Date();
+    let y = now.getFullYear() - start.getFullYear();
+    let m = now.getMonth() - start.getMonth();
+    if (m < 0) { y--; m += 12; }
+    const node = document.getElementById('exp-counter');
+    if (node) node.textContent = `${y}y ${m}m`;
+  }
+  updateCounter();
+  setInterval(updateCounter, 60000);
+  return c;
+}
+
+// ── Skills card ───────────────────────────────────────────────────
+// Renders each string in sections.skills.items as a pill badge.
+// To add a skill: append a string to that array in portfolio.config.js.
+function buildSkills(sec) {
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  const wrap = div('');
+  wrap.style.cssText = 'display:flex; flex-wrap:wrap; gap:.4rem;';
+  sec.items.forEach(skill => wrap.appendChild(span('skill-badge', skill)));
+  body.appendChild(wrap);
+  return card(body);
+}
+
+// ── Certifications card ───────────────────────────────────────────
+// 4-column grid of cert badge images. Each badge links to your Trailhead profile.
+// Images go in Assets/icons/ — path set via cert.src in portfolio.config.js.
+// If a badge image fails to load, that cert item is hidden automatically.
+function buildCertifications(sec) {
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  const grid = div('');
+  grid.style.cssText = 'display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem;';
+  sec.items.forEach(cert => {
+    const a = el('a', 'cert-item');
+    a.href = sec.trailheadUrl;
+    a.target = '_blank';
+    a.title = cert.title;
+    const img = el('img');
+    img.src = cert.src; img.alt = cert.title;
+    img.onerror = function() { this.parentElement.style.display='none'; };
+    a.appendChild(img);
+    a.appendChild(span('', cert.title));
+    grid.appendChild(a);
+  });
+  body.appendChild(grid);
+  return card(body);
+}
+
+// ── Experience card ───────────────────────────────────────────────
+// Each job entry supports:
+//   subRoles   → career progression within the same company (e.g. Trainee → Analyst → Consultant)
+//   highlights → timeline bullet groups with a coloured heading tag
+// To add a new employer: append an object to sections.experience.items in portfolio.config.js.
+function buildExperience(sec) {
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+
+  sec.items.forEach((job, i) => {
+    const wrap = div('');
+    if (i > 0) {
+      wrap.style.cssText = 'margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--sep);';
+    }
+
+    // Company header
+    const header = div('');
+    header.style.cssText = 'display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem;';
+    if (job.logo) {
+      const logo = el('img');
+      logo.src = job.logo; logo.alt = job.company;
+      logo.style.cssText = 'height:36px; width:36px; object-fit:contain; border-radius:6px; flex-shrink:0;';
+      logo.onerror = function() { this.style.display='none'; };
+      header.appendChild(logo);
+    }
+    const meta = div('');
+    const co = div('');
+    co.style.cssText = 'font-weight:700; font-size:1rem; color:var(--text);';
+    co.textContent = job.company;
+    const role = div('');
+    role.style.cssText = 'font-size:.82rem; color:var(--text-soft); margin-top:1px;';
+    role.textContent = `${job.type} · ${job.from} – ${job.to}`;
+    meta.appendChild(co); meta.appendChild(role);
+    header.appendChild(meta);
+    wrap.appendChild(header);
+
+    // Sub-roles (career progression within same company)
+    if (job.subRoles && job.subRoles.length) {
+      const subWrap = div('');
+      subWrap.style.cssText = 'margin-bottom:.85rem;';
+      job.subRoles.forEach(sr => {
+        const sr_div = div('sub-role');
+        const t = div('sub-role-title', sr.title);
+        const m = div('sub-role-meta', sr.period + (sr.mode ? ' · ' + sr.mode : ''));
+        sr_div.appendChild(t); sr_div.appendChild(m);
+        if (sr.desc) sr_div.appendChild(div('sub-role-desc', sr.desc));
+        subWrap.appendChild(sr_div);
+      });
+      wrap.appendChild(subWrap);
+    }
+
+    // Highlights
+    if (job.highlights && job.highlights.length) {
+      const timeline = div('exp-line');
+      job.highlights.forEach(h => {
+        const row = div('');
+        row.style.cssText = 'display:flex; gap:.75rem; margin-bottom:.75rem;';
+        const dot = div('exp-dot-outer');
+        dot.appendChild(div('exp-dot-inner'));
+        const content = div('');
+        content.style.cssText = 'flex:1; min-width:0;';
+        content.appendChild(span('highlight-tag', h.heading));
+        const ul = div('');
+        ul.style.cssText = 'display:flex; flex-direction:column; gap:.35rem; margin-top:.4rem;';
+        h.points.forEach(pt => {
+          const li = div('');
+          li.style.cssText = 'display:flex; gap:.6rem; font-size:.84rem; color:var(--text-soft); line-height:1.55;';
+          li.appendChild(div('bullet-dot'));
+          li.appendChild(span('', pt));
+          ul.appendChild(li);
+        });
+        content.appendChild(ul);
+        row.appendChild(dot); row.appendChild(content);
+        timeline.appendChild(row);
+      });
+      wrap.appendChild(timeline);
+    }
+
+    body.appendChild(wrap);
+  });
+
+  return card(body);
+}
+
+// ── Education card ────────────────────────────────────────────────
+// Shows institution logo, degree name, and graduation year.
+// Logo path set via edu.logo in portfolio.config.js (Assets/images/).
+function buildEducation(sec) {
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  sec.items.forEach((edu, i) => {
+    const row = div('');
+    row.style.cssText = `display:flex; align-items:center; gap:.9rem;${i > 0 ? 'margin-top:.85rem; padding-top:.85rem; border-top:1px solid var(--sep);' : ''}`;
+    if (edu.logo) {
+      const img = el('img', 'edu-logo');
+      img.src = edu.logo; img.alt = edu.institution;
+      img.onerror = function() { this.style.display='none'; };
+      row.appendChild(img);
+    }
+    const meta = div('');
+    const inst = div('');
+    inst.style.cssText = 'font-weight:600; color:var(--text); font-size:.9rem;';
+    inst.textContent = edu.institution;
+    const deg = div('');
+    deg.style.cssText = 'font-size:.82rem; color:var(--text-soft); margin-top:2px;';
+    deg.textContent = `${edu.degree} · ${edu.year}`;
+    const loc = div('');
+    loc.style.cssText = 'font-size:.75rem; color:var(--text-muted); margin-top:1px;';
+    loc.textContent = edu.location;
+    meta.appendChild(inst); meta.appendChild(deg); meta.appendChild(loc);
+    row.appendChild(meta);
+    body.appendChild(row);
+  });
+  return card(body);
+}
+
+// ── Projects card ─────────────────────────────────────────────────
+// Hidden if sections.projects.items is empty.
+// Each project shows name, description, tech tags, and an optional URL.
+function buildProjects(sec) {
+  if (!sec.items.length) return null;
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  sec.items.forEach((proj, i) => {
+    const c = div('');
+    c.style.cssText = `padding:.85rem; border:1px solid var(--card-border); border-radius:10px; background:var(--accent-badge-bg);${i > 0 ? 'margin-top:.6rem;' : ''}`;
+    const name = div('');
+    name.style.cssText = 'font-weight:600; color:var(--text); font-size:.9rem; margin-bottom:.3rem;';
+    name.textContent = proj.name;
+    const desc = div('');
+    desc.style.cssText = 'font-size:.83rem; color:var(--text-soft); margin-bottom:.5rem; line-height:1.5;';
+    desc.textContent = proj.description;
+    const tags = div('');
+    tags.style.cssText = 'display:flex; flex-wrap:wrap; gap:.3rem;';
+    proj.tags.forEach(t => tags.appendChild(span('skill-badge', t)));
+    c.appendChild(name); c.appendChild(desc); c.appendChild(tags);
+    if (proj.url) {
+      const a = el('a');
+      a.href = proj.url; a.target = '_blank';
+      a.style.cssText = 'display:inline-block; margin-top:.5rem; font-size:.8rem; color:var(--link-color); font-weight:500; text-decoration:none;';
+      a.textContent = 'View project →';
+      a.onmouseenter = () => a.style.textDecoration = 'underline';
+      a.onmouseleave = () => a.style.textDecoration = 'none';
+      c.appendChild(a);
+    }
+    body.appendChild(c);
+  });
+  return card(body);
+}
+
+// ── Blog card ─────────────────────────────────────────────────────
+// Hidden if sections.blog.items is empty.
+// Each post shows title, date, and reading time — links to an external URL.
+function buildBlog(sec) {
+  if (!sec.items.length) return null;
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  sec.items.forEach((post, i) => {
+    const a = el('a');
+    a.href = post.url; a.target = '_blank';
+    a.style.cssText = `display:block; text-decoration:none;${i > 0 ? 'margin-top:.75rem; padding-top:.75rem; border-top:1px solid var(--sep);' : ''}`;
+    const title = div('');
+    title.style.cssText = 'font-weight:600; color:var(--text); font-size:.88rem; line-height:1.4;';
+    title.textContent = post.title;
+    const meta = div('');
+    meta.style.cssText = 'font-size:.75rem; color:var(--text-muted); margin-top:3px;';
+    meta.textContent = `${post.date} · ${post.readingTime}`;
+    a.appendChild(title); a.appendChild(meta);
+    a.onmouseenter = () => title.style.color = 'var(--accent)';
+    a.onmouseleave = () => title.style.color = 'var(--text)';
+    body.appendChild(a);
+  });
+  return card(body);
+}
+
+// ── Awards card ───────────────────────────────────────────────────
+// Hidden if sections.awards.items is empty.
+// Each entry: title, issuer, year, optional description.
+function buildAwards(sec) {
+  if (!sec.items.length) return null;
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  sec.items.forEach((award, i) => {
+    const row = div('');
+    row.style.cssText = i > 0 ? 'margin-top:.75rem; padding-top:.75rem; border-top:1px solid var(--sep);' : '';
+    const title = div('');
+    title.style.cssText = 'font-weight:600; color:var(--text); font-size:.88rem;';
+    title.textContent = award.title;
+    const meta = div('');
+    meta.style.cssText = 'font-size:.76rem; color:var(--text-muted); margin-top:2px;';
+    meta.textContent = `${award.issuer} · ${award.year}`;
+    row.appendChild(title); row.appendChild(meta);
+    if (award.description) {
+      const desc = div('');
+      desc.style.cssText = 'font-size:.83rem; color:var(--text-soft); margin-top:.3rem; line-height:1.5;';
+      desc.textContent = award.description;
+      row.appendChild(desc);
+    }
+    body.appendChild(row);
+  });
+  return card(body);
+}
+
+// ── Languages card ────────────────────────────────────────────────
+// Hidden if sections.languages.items is empty.
+// Each entry: name + proficiency level string (e.g. "Native", "Professional").
+function buildLanguages(sec) {
+  if (!sec.items.length) return null;
+  const body = div('');
+  body.appendChild(div('section-label', sec.title));
+  const list = div('');
+  list.style.cssText = 'display:flex; flex-direction:column; gap:.4rem;';
+  sec.items.forEach(lang => {
+    const row = div('');
+    row.style.cssText = 'display:flex; justify-content:space-between; font-size:.85rem;';
+    const n = span('', lang.name);
+    n.style.cssText = 'color:var(--text); font-weight:500;';
+    const lv = span('', lang.level);
+    lv.style.cssText = 'color:var(--text-muted);';
+    row.appendChild(n); row.appendChild(lv);
+    list.appendChild(row);
+  });
+  body.appendChild(list);
+  return card(body);
+}
+</script>
 </body>
 </html>
